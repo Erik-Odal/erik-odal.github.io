@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" role="img" aria-labelledby="title desc">
+  <title id="title">Minimal drone illustration</title>
+  <desc id="desc">Simple silhouette of a quadcopter drone on a pale blue background.</desc>
+  <rect width="1200" height="675" fill="#dff3f3"/>
+  <g fill="#102b3a" stroke="#102b3a" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="490" y="285" width="220" height="105" rx="36"/>
+    <path d="M505 315 L355 205" stroke-width="28" fill="none"/>
+    <path d="M695 315 L845 205" stroke-width="28" fill="none"/>
+    <path d="M505 360 L350 465" stroke-width="28" fill="none"/>
+    <path d="M695 360 L850 465" stroke-width="28" fill="none"/>
+    <rect x="285" y="175" width="150" height="24" rx="12"/>
+    <rect x="765" y="175" width="150" height="24" rx="12"/>
+    <rect x="280" y="475" width="150" height="24" rx="12"/>
+    <rect x="770" y="475" width="150" height="24" rx="12"/>
+    <path d="M535 390 L505 485" stroke-width="22" fill="none"/>
+    <path d="M665 390 L695 485" stroke-width="22" fill="none"/>
+    <rect x="470" y="475" width="75" height="20" rx="10"/>
+    <rect x="655" y="475" width="75" height="20" rx="10"/>
+    <circle cx="600" cy="402" r="42" fill="#67cfcd" stroke-width="16"/>
+    <circle cx="600" cy="402" r="13" fill="#102b3a" stroke="none"/>
+  </g>
+</svg>

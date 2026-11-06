@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Autonomous marine docking using Model Predictive Control - project by Erik Laitala.">
+  <title>Autonomous Marine Docking | Erik Laitala</title>
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="container nav">
+    <a class="brand" href="../index.html">Erik Laitala</a>
+    <nav class="nav-links" aria-label="Primary navigation">
+      <a href="../index.html#projects">Projects</a>
+      <a href="../index.html#experience">Experience</a>
+      <a href="../assets/Erik_Laitala_CV.pdf" target="_blank">CV</a>
+      <a class="nav-cta" href="../index.html#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="case-hero">
+    <div class="container">
+      <p class="eyebrow">Control systems · Autonomous systems · MSc thesis</p>
+      <h1>Autonomous Marine Docking</h1>
+      <p class="case-intro">For my MSc thesis at CPAC Systems, we developed an autonomous docking concept for a marine vessel using Model Predictive Control.</p>
+      <div class="case-meta">
+        <span><strong>Organisation:</strong> CPAC Systems</span>
+        <span><strong>My focus:</strong> Python environment, MPC cost functions and system integration</span>
+        <span><strong>Result:</strong> Granted Swedish patent</span>
+      </div>
+      <a class="back" href="../index.html#projects">← Back to projects</a>
+    </div>
+  </section>
+
+  <div class="container case-main">
+    <figure class="case-image docking-main-image">
+      <img src="../assets/docking-thesis-boat.png" alt="Marine vessel used in the autonomous docking thesis">
+      <figcaption class="caption">Marine vessel from the autonomous docking thesis.</figcaption>
+    </figure>
+
+    <section class="case-grid">
+      <h2>How we broke it down</h2>
+      <div class="case-copy wide-copy">
+        <p>The thesis separated the docking task into a set of smaller problems that could be developed and tested individually before being integrated into one system.</p>
+      </div>
+    </section>
+
+    <section class="problem-flow" aria-label="Technical problem breakdown">
+      <article class="problem-step">
+        <span class="step-number">01</span>
+        <h3>Route planning</h3>
+        <p>The harbour was represented with polygon boundaries and obstacles. We used an A*-based visibility-graph planner to find a short feasible route from the vessel to the docking area.</p>
+      </article>
+      <article class="problem-step">
+        <span class="step-number">02</span>
+        <h3>Vessel model</h3>
+        <p>A 3-DOF kinematic model described position and heading, with surge, sway and yaw rate as the control inputs used by the controller.</p>
+      </article>
+      <article class="problem-step">
+        <span class="step-number">03</span>
+        <h3>MPC and trajectory control</h3>
+        <p>The controller balanced several objectives through cost functions: following the route, keeping control actions smooth, limiting acceleration and reaching the final docking position and orientation.</p>
+      </article>
+      <article class="problem-step">
+        <span class="step-number">04</span>
+        <h3>Collision avoidance</h3>
+        <p>Static obstacles and harbour boundaries were included in the optimisation, while moving obstacles were represented separately so the trajectory could adapt as the surroundings changed.</p>
+      </article>
+      <article class="problem-step">
+        <span class="step-number">05</span>
+        <h3>Integration and validation</h3>
+        <p>We moved from Python simulation to CPAC's Unity-based simulator over CAN, converted states and commands between the environments, and finally tested the concept on a real vessel.</p>
+      </article>
+    </section>
+
+    <section class="case-grid">
+      <h2>My contribution</h2>
+      <div class="case-copy">
+        <p>My main focus was the Python simulation environment and the controller itself, particularly the MPC cost functions. My thesis partner focused more heavily on the vessel model, while path planning and system-level integration overlapped between us.</p>
+        <p>I also worked on connecting our Python environment to CPAC's simulator. That meant receiving vessel state data over CAN, converting coordinate systems and translating the controller output back into commands the simulator could use.</p>
+      </div>
+    </section>
+
+    <figure class="case-image simulator-image">
+      <img src="../assets/docking-simulator.jpg" alt="CPAC simulator and development setup">
+      <figcaption class="caption">Development setup used while moving the controller from Python into CPAC's simulator environment.</figcaption>
+    </figure>
+
+    <section class="case-grid">
+      <h2>From simulation to a real vessel</h2>
+      <div class="case-copy">
+        <p>The development path deliberately increased the realism. We first worked in Python, then connected the controller to CPAC's simulator, and finally ran the control chain on a real vessel.</p>
+        <p>The real-vessel test exposed behaviour that was less obvious in simulation. The path and trajectory planners produced sensible references, but rotational commands were too aggressive and the vessel overshot its desired heading. That pointed directly to the need for tighter velocity constraints, stronger acceleration penalties and further tuning.</p>
+      </div>
+    </section>
+
+    <section class="case-grid">
+      <h2>Outcome</h2>
+      <div class="case-copy">
+        <div class="case-callout">
+          <strong>Granted Swedish patent</strong>
+          <p>The work resulted in a granted patent for MPC-based autonomous marine docking. CPAC also continued with the concept of using MPC and the cost-function approach from the thesis in later autonomous docking development.</p>
+        </div>
+        <div class="case-links">
+          <a class="button" href="../assets/Autonomous_Docking_Thesis.pdf" target="_blank">Read thesis</a>
+          <a class="button" href="https://search.prv.se/#/patent/SE2450627-1" target="_blank" rel="noopener">View patent at PRV</a>
+        </div>
+      </div>
+    </section>
+  </div>
+</main>
+
+<footer class="site-footer"><div class="container">© 2026 Erik Laitala</div></footer>
+</body>
+</html>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Gesture-controlled drone using HoloLens - project by Erik Laitala.">
+  <title>Gesture-Controlled Drone | Erik Laitala</title>
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="container nav">
+    <a class="brand" href="../index.html">Erik Laitala</a>
+    <nav class="nav-links" aria-label="Primary navigation">
+      <a href="../index.html#projects">Projects</a>
+      <a href="../index.html#experience">Experience</a>
+      <a href="../assets/Erik_Laitala_CV.pdf" target="_blank">CV</a>
+      <a class="nav-cta" href="../index.html#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="case-hero">
+    <div class="container">
+      <p class="eyebrow">Human-robot interaction · C++ · HoloLens 2 · Bluetooth</p>
+      <h1>Gesture-Controlled Drone</h1>
+      <p class="case-intro">FOI had bought a HoloLens 2, but no one in the group had worked with it yet. I was asked to explore what it could be useful for and built a prototype where hand motion became a direct control input to a physical drone.</p>
+      <div class="case-meta">
+        <span><strong>Organisation:</strong> FOI</span>
+        <span><strong>Role:</strong> Developed independently</span>
+        <span><strong>First working prototype:</strong> About three weeks</span>
+      </div>
+      <a class="back" href="../index.html#projects">← Back to projects</a>
+    </div>
+  </section>
+
+  <div class="container case-main">
+    <figure class="case-image drone-visual">
+      <img src="../assets/drone-simple.svg" alt="Simple drone illustration">
+      <figcaption class="caption">Project photos are not published because the work was carried out at FOI.</figcaption>
+    </figure>
+
+    <section class="case-grid">
+      <h2>How the control worked</h2>
+      <div class="case-copy wide-copy">
+        <p>The interesting part was creating a shared spatial relationship between the headset, the user's hand and the drone. Once that was in place, the hand could become a surprisingly intuitive controller.</p>
+      </div>
+    </section>
+
+    <section class="problem-flow hololens-flow" aria-label="Gesture-controlled drone technical breakdown">
+      <article class="problem-step">
+        <span class="step-number">01</span>
+        <h3>Track the hand</h3>
+        <p>A HoloLens hand-tracking example exposed the joints of the hand as 3D coordinates relative to the headset. That gave me the raw input needed for a physical control interface.</p>
+      </article>
+      <article class="problem-step">
+        <span class="step-number">02</span>
+        <h3>Establish a local frame</h3>
+        <p>At startup I fixed the headset position as the local origin and placed the drone in a corresponding local frame, with an offset for the natural height difference between the user's head and hand.</p>
+      </article>
+      <article class="problem-step">
+        <span class="step-number">03</span>
+        <h3>Map position to position</h3>
+        <p>In the first control mode, the hand's x, y and z position relative to the HoloLens origin became the target position for the drone in its own local frame.</p>
+      </article>
+      <article class="problem-step">
+        <span class="step-number">04</span>
+        <h3>Use hand orientation</h3>
+        <p>For a second mode, I formed a plane from several tracked hand points and used its angle to generate a velocity vector. Tilting the hand therefore commanded motion in that direction.</p>
+      </article>
+      <article class="problem-step">
+        <span class="step-number">05</span>
+        <h3>Send it directly over BLE</h3>
+        <p>The C++ application sent the commands directly from the HoloLens to the drone over Bluetooth Low Energy. The other hand was used for mode switching and the supporting flight controls.</p>
+      </article>
+    </section>
+
+    <section class="case-grid">
+      <h2>Building it</h2>
+      <div class="case-copy">
+        <p>I started from two pieces that already solved separate problems: a HoloLens example showing how to access the tracked hand joints, and an open-source project that had established BLE communication with a drone. My work was to understand both sides, build the control layer between them and make the complete interaction work on real hardware.</p>
+        <p>The hardest part was the hand tracking and turning changing joint coordinates into something stable enough to use as a control input. Once the mapping worked, the interaction was more intuitive than I expected and did not need much explanation for someone watching the demo.</p>
+      </div>
+    </section>
+
+    <section class="case-grid">
+      <h2>From experiment to demonstration</h2>
+      <div class="case-copy">
+        <div class="case-callout">
+          <strong>A three-week exploration that became part of the autonomy lab</strong>
+          <p>My manager liked the first prototype and brought it further through the organisation. It became a recurring demonstration because the full input-to-output chain was immediately visible: move a hand and a real drone responds. I later presented the work as part of an autonomy-lab update to around 300 colleagues.</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</main>
+
+<footer class="site-footer"><div class="container">© 2026 Erik Laitala</div></footer>
+</body>
+</html>
