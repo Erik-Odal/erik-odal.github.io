@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Erik Laitala - robotics and mechatronics engineer working across control, electronics, software and physical prototyping.">
-  <title>Erik Laitala | Robotics & Mechatronics Engineer</title>
+  <meta name="description" content="Erik Laitala - mechatronics engineer working with autonomous systems, prototyping and system integration.">
+  <title>Erik Laitala | Mechatronics Engineer</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -24,11 +24,10 @@
 <main id="top">
   <section class="hero">
     <div class="container hero-layout">
-      <div>
-        <p class="eyebrow">Robotics · Mechatronics · Control · R&D</p>
-        <h1>I make the whole <span>system work.</span></h1>
+      <div class="hero-content">
+        <h1>I like turning technical ideas into working physical systems.</h1>
         <p class="hero-copy">
-          I’m Erik Laitala, a robotics and mechatronics engineer working across control, electronics, software and physical prototyping. I like building systems where software, electronics and hardware have to work together in practice.
+          I am Erik Laitala, a mechatronics engineer in Stockholm with experience in autonomous systems, prototyping and system integration. I enjoy working across mechanics, electronics and software, bringing them together into systems that work in the real world.
         </p>
         <div class="actions">
           <a class="button primary" href="#projects">View projects</a>
@@ -36,98 +35,70 @@
         </div>
       </div>
 
-      <div class="hero-mosaic" aria-label="Selected project images">
-        <div class="hero-shot boat"><img src="assets/docking-thesis-boat.png" alt="Marine vessel from the autonomous docking thesis"></div>
-        <div class="hero-shot"><img src="assets/brady-refill-box.jpg" alt="Arduino-based Brady Roll Refill Box"></div>
-        <div class="hero-shot fluke"><img src="assets/fluke-cable-tester.png" alt="Fluke Cable Tester application"></div>
-      </div>
+      <figure class="hero-portrait">
+        <img class="portrait-primary" src="assets/erik-laitala-portrait.jpg" alt="Portrait of Erik Laitala">
+        <img class="portrait-hover" src="assets/erik-laitala-workshop.jpg" alt="" aria-hidden="true">
+      </figure>
     </div>
   </section>
 
   <section class="section" id="projects">
     <div class="container">
       <div class="section-head">
-        <div>
-          <p class="eyebrow">Selected work</p>
-          <h2>Projects</h2>
-        </div>
-        <p class="section-lead">A selection of projects that show how I work across control, integration, prototyping and real-world testing.</p>
+        <h2>Projects</h2>
+        <p class="section-lead">Selected work in autonomous systems, test automation, reverse engineering and human-robot interaction.</p>
       </div>
 
       <div class="project-grid">
         <article class="project-card">
           <a class="project-media" href="projects/docking.html">
-            <img src="assets/docking-thesis-boat.png" alt="Marine vessel from the autonomous docking thesis">
+            <img src="assets/docking-thesis-boat.png" alt="Marine vessel used in the autonomous docking thesis">
           </a>
           <div class="project-card-body">
-            <p class="project-label">Control systems · MSc thesis</p>
             <h3>Autonomous Marine Docking</h3>
-            <p>Autonomous docking split into route planning, MPC trajectory control, obstacle handling and system integration.</p>
-            <p class="outcome"><strong>Result:</strong> Tested in Python, in CPAC’s boat simulator and on a real vessel. The work resulted in a granted Swedish patent.</p>
+            <p>My MSc thesis at CPAC Systems focused on autonomous marine docking using Model Predictive Control. The work included route planning, vessel modelling, collision avoidance, simulator integration and initial tests on a real vessel.</p>
+            <p class="outcome"><strong>Result:</strong> The work resulted in a granted Swedish patent.</p>
             <div class="tags"><span class="tag">Python</span><span class="tag">MPC</span><span class="tag">CAN</span></div>
-            <a class="read-more" href="projects/docking.html">Read case study →</a>
+            <a class="read-more" href="projects/docking.html">Read project</a>
           </div>
         </article>
 
         <article class="project-card">
           <a class="project-media fluke-card-media" href="projects/fluke.html">
-            <img
-              src="assets/fluke-qa-report.png"
-              alt="Cable quality assurance report generated during continuity testing"
-            >
+            <img src="assets/fluke-qa-report.png" alt="Cable quality assurance report generated during continuity testing">
           </a>
-
           <div class="project-card-body">
-            <p class="project-label">Test automation · Production tooling</p>
             <h3>Fluke Cable Tester</h3>
-
-            <p>
-              A workshop tool built around the complete test flow: direct BLE meter data,
-              connection-list context, guarded Excel writes and operator feedback.
-            </p>
-
-            <p class="outcome">
-              <strong>Result:</strong>
-              Reduced a typical production test from about 60 minutes to 6 and is used daily in the workshop.
-            </p>
-
-            <div class="tags">
-              <span class="tag">Python</span>
-              <span class="tag">BLE</span>
-              <span class="tag">Excel</span>
-            </div>
-
-            <a class="read-more" href="projects/fluke.html">
-              Read case study →
-            </a>
+            <p>Cable testing required operators to transfer every measurement from a Fluke meter into an Excel report by hand. I developed a Python application that reads the meter over BLE, follows the active connection in Excel and stores validated results.</p>
+            <p class="outcome"><strong>Result:</strong> A typical test was reduced from about 60 minutes to 6.</p>
+            <div class="tags"><span class="tag">Python</span><span class="tag">BLE</span><span class="tag">Excel</span></div>
+            <a class="read-more" href="projects/fluke.html">Read project</a>
           </div>
         </article>
 
         <article class="project-card">
           <a class="project-media" href="projects/brady.html">
-            <img src="assets/brady-refill-box.jpg" alt="Brady Roll Refill Box built with Arduino and a 3D-printed enclosure">
+            <img src="assets/brady-refill-box.jpg" alt="Brady Roll Refill Box with Arduino and a 3D-printed enclosure">
           </a>
           <div class="project-card-body">
-            <p class="project-label">Reverse engineering · Embedded electronics</p>
             <h3>Brady Roll Refill Box</h3>
-            <p>A reverse-engineering project that went from identifying the roll EEPROM to mapping its changing bytes and building a reusable workshop tool.</p>
-            <p class="outcome"><strong>Result:</strong> A working bench tool with validation before writing, a 3D-printed enclosure and support for multiple roll formats.</p>
+            <p>Brady label rolls could be rejected while usable material remained. I identified the DS2431 Smart Cell, mapped the remaining-material counter and built a standalone tool that validates and restores supported rolls.</p>
+            <p class="outcome"><strong>Result:</strong> The finished tool is used in the workshop.</p>
             <div class="tags"><span class="tag">Arduino</span><span class="tag">EEPROM</span><span class="tag">CAD</span></div>
-            <a class="read-more" href="projects/brady.html">Read case study →</a>
+            <a class="read-more" href="projects/brady.html">Read project</a>
           </div>
         </article>
 
         <article class="project-card">
-          <a class="project-media" href="projects/hololens.html">
-          <img src="assets/drone-simple.svg" alt="Simple drone illustration">
-        </a>
+          <a class="project-media project-media-drone" href="projects/hololens.html">
+            <img src="assets/drone-simple.svg" alt="Drone illustration">
+          </a>
           <div class="project-card-body">
-            <p class="project-label">Human-robot interaction · FOI</p>
             <h3>Gesture-Controlled Drone</h3>
-            <p>A HoloLens 2 prototype that turned tracked hand position and orientation into direct position and velocity commands for a physical drone.</p>
-            <p class="outcome"><strong>Result:</strong> Built independently in about three weeks and later used at events to demonstrate FOI’s autonomy work.</p>
-            <div class="tags"><span class="tag">C++</span><span class="tag">HoloLens</span><span class="tag">Bluetooth</span></div>
-            <a class="read-more" href="projects/hololens.html">Read case study →</a>
+            <p>I was asked to investigate how HoloLens 2 could be used in the autonomy lab. I combined hand-tracking data with an existing BLE connection to a drone and implemented the control mapping in C++.</p>
+            <p class="outcome"><strong>Result:</strong> The prototype became a recurring demonstration at FOI.</p>
+            <div class="tags"><span class="tag">C++</span><span class="tag">HoloLens 2</span><span class="tag">BLE</span></div>
+            <a class="read-more" href="projects/hololens.html">Read project</a>
           </div>
         </article>
       </div>
@@ -137,28 +108,25 @@
   <section class="section experience-section" id="experience">
     <div class="container">
       <div class="section-head">
-        <div>
-          <p class="eyebrow">Professional experience</p>
-          <h2>From research platforms to production tools</h2>
-        </div>
-        <p class="section-lead">My work has moved between exploratory R&D, physical system integration, test infrastructure and cross-functional product development.</p>
+        <h2>Experience</h2>
+        <p class="section-lead">My work has included autonomous systems, HIL development, test automation and cross-functional product development.</p>
       </div>
 
       <div class="experience-list">
         <article class="experience-row">
-          <div class="experience-meta"><strong>Akkodis Electrical Solutions</strong>2026 - present</div>
+          <div class="experience-meta"><strong>Akkodis Electrical Solutions</strong><span>2026 - present</span></div>
           <div class="experience-copy">
             <h3>Electrical Design Engineer</h3>
-            <p>I have built hardware-in-the-loop simulation systems for Scania, developed the Fluke production-test tool shown above, and currently lead a cross-functional engineering project spanning electronics, firmware, mechanics, prototyping and production.</p>
+            <p>I have built hardware-in-the-loop systems for Scania, developed the Fluke cable-testing tool and lead a cross-functional engineering project spanning electronics, firmware, mechanics, prototyping and production.</p>
           </div>
         </article>
 
         <article class="experience-row">
-          <div class="experience-meta"><strong>Swedish Defence Research Agency (FOI)</strong>2024 - 2025</div>
+          <div class="experience-meta"><strong>Swedish Defence Research Agency (FOI)</strong><span>2024 - 2025</span></div>
           <div class="experience-copy">
-            <h3>Research Engineer and autonomy-lab responsibility</h3>
-            <p>At FOI, I worked on autonomous platforms from early concept work through integration and physical testing. Depending on the project, that meant contributing to hardware choices, designing custom CAD parts, 3D printing mounts and fixtures, wiring and system integration, writing Python-based control and autonomy functions, and testing complete platforms outdoors.</p>
-            <p>One platform was largely my responsibility, while on others I worked as part of a wider team. I later took over responsibility for the autonomy lab during the lab manager’s parental leave, including setup, equipment and component needs, onboarding, technical support and demonstrations. I also presented developments from the lab to around 300 colleagues.</p>
+            <h3>Research Engineer</h3>
+            <p>At FOI, I worked on autonomous platforms from early concepts through integration and outdoor testing. The work included hardware selection, CAD, 3D-printed mounts and fixtures, wiring, Python-based control functions and system-level testing.</p>
+            <p>One platform was largely my responsibility, while other projects were developed as part of a wider team. I later took over responsibility for the autonomy lab during the lab manager's parental leave, including equipment, component needs, onboarding, technical support and demonstrations. I also presented work from the lab to around 300 colleagues.</p>
             <p class="confidential">Project-specific details and images are omitted due to confidentiality.</p>
           </div>
         </article>
@@ -169,16 +137,15 @@
   <section class="section" id="about">
     <div class="container about-layout">
       <div class="about-panel">
-        <p class="eyebrow">How I work</p>
-        <h3>Break it down, build early and integrate often.</h3>
-        <p>When I face a new technical problem, I usually start by breaking it into smaller subproblems. From there, I work out what each part needs to do, what information or signals it depends on and how the pieces need to fit together. I like getting practical early, so I prototype, test and integrate rather than waiting for every part to feel finished in isolation.</p>
-        <p>I am strongest in prototyping, system integration and troubleshooting physical systems. Over the next few years I want to deepen my control-theory knowledge and keep building systems that have to function outside a controlled lab environment.</p>
+        <h2>Working method</h2>
+        <p>I normally start by breaking a problem into smaller technical parts. I then define what each part needs to do, how the interfaces fit together and what can be tested early. I prefer to build and integrate iteratively, since physical tests often reveal problems that are difficult to see when each part is developed in isolation.</p>
+        <p>My strongest areas are prototyping, system integration and troubleshooting physical systems. I also want to continue developing my knowledge in control theory and its use in systems that operate outside controlled lab conditions.</p>
       </div>
+
       <div class="about-panel">
-        <p class="eyebrow">Outside work</p>
-        <h3>Curious by default.</h3>
-        <p>I enjoy running, squash and darts. I also like fixing and building things for my own use, whether that means making an app for my Garmin watch, repairing an old radio or modifying hardware that does not behave the way I want it to.</p>
-        <p class="fix-line">If something is broken, or simply does not work the way I want it to, I will probably try to fix it.</p>
+        <h2>Outside work</h2>
+        <p>I enjoy running, squash and darts. I also build and repair things for my own use, including an audio application for my Garmin watch and repairs to an old radio with failed capacitors.</p>
+        <p>If something is broken, or does not work the way I think it should, I will usually try to understand and fix it.</p>
       </div>
     </div>
   </section>
@@ -186,9 +153,8 @@
   <section class="section contact-section" id="contact">
     <div class="container contact-grid">
       <div>
-        <p class="eyebrow">Contact</p>
-        <h2>Get in touch</h2>
-        <p>I am especially interested in R&D roles where software, electronics, mechanics and control meet in a physical product - particularly robotics, medtech, human-machine systems and technology with a clear practical purpose.</p>
+        <h2>Contact</h2>
+        <p>I am interested in R&amp;D and product-development roles where mechanics, electronics, software and control meet in a physical system.</p>
         <div class="contact-list">
           <a href="mailto:erik.laitala@gmail.com"><small>Email</small>erik.laitala@gmail.com</a>
           <a href="tel:+46764058290"><small>Phone</small>+46 76 405 82 90</a>
@@ -200,16 +166,15 @@
           <a class="button ghost" href="mailto:erik.laitala@gmail.com">Send email</a>
         </div>
       </div>
+
       <div class="contact-note">
-        <strong>What I bring</strong>
-        <p>A broad engineering base, experience taking systems from simulation or concept into physical tests, and a habit of staying with the problem until the full chain works.</p>
+        <h3>Areas of interest</h3>
+        <p>Robotics, autonomous systems, medtech, human-machine systems, electrification and other products where engineering decisions can be tested on a real system.</p>
       </div>
     </div>
   </section>
 </main>
 
-<footer class="site-footer">
-  <div class="container">© 2026 Erik Laitala</div>
-</footer>
+<footer class="site-footer"><div class="container">&copy; 2026 Erik Laitala</div></footer>
 </body>
 </html>

@@ -23,86 +23,77 @@
 <main>
   <section class="case-hero">
     <div class="container">
-      <p class="eyebrow">Control systems · Autonomous systems · MSc thesis</p>
       <h1>Autonomous Marine Docking</h1>
-      <p class="case-intro">For my MSc thesis at CPAC Systems, we developed an autonomous docking concept for a marine vessel using Model Predictive Control.</p>
-      <div class="case-meta">
-        <span><strong>Organisation:</strong> CPAC Systems</span>
-        <span><strong>My focus:</strong> Python environment, MPC cost functions and system integration</span>
-        <span><strong>Result:</strong> Granted Swedish patent</span>
-      </div>
-      <a class="back" href="../index.html#projects">← Back to projects</a>
+      <p class="case-intro">For my MSc thesis at CPAC Systems, we developed and evaluated an autonomous docking system for a marine vessel using Model Predictive Control. The objective was to generate a route through a constrained harbour, avoid static and moving obstacles, and reach a predefined docking position with the correct orientation.</p>
+      <a class="back" href="../index.html#projects">&larr; Back to projects</a>
     </div>
   </section>
 
   <div class="container case-main">
     <figure class="case-image docking-main-image">
       <img src="../assets/docking-thesis-boat.png" alt="Marine vessel used in the autonomous docking thesis">
-      <figcaption class="caption">Marine vessel from the autonomous docking thesis.</figcaption>
+      <figcaption>Marine vessel used during the thesis work.</figcaption>
     </figure>
 
-    <section class="case-grid">
-      <h2>How we broke it down</h2>
-      <div class="case-copy wide-copy">
-        <p>The thesis separated the docking task into a set of smaller problems that could be developed and tested individually before being integrated into one system.</p>
+    <section class="case-section">
+      <h2>Problem formulation</h2>
+      <div class="case-copy">
+        <p>The docking task included several related problems that could not be handled by one control function alone. The system needed a route through the harbour, a model of the vessel motion, a controller that could follow the route, collision avoidance and interfaces that allowed the same concept to be tested in several environments.</p>
+        <p>The work was therefore divided into five main parts.</p>
       </div>
     </section>
 
-    <section class="problem-flow" aria-label="Technical problem breakdown">
-      <article class="problem-step">
-        <span class="step-number">01</span>
+    <section class="system-flow" aria-label="Autonomous docking system structure">
+      <article>
         <h3>Route planning</h3>
-        <p>The harbour was represented with polygon boundaries and obstacles. We used an A*-based visibility-graph planner to find a short feasible route from the vessel to the docking area.</p>
+        <p>The harbour was represented by polygon boundaries and obstacles. A visibility graph and an A*-based search generated a route to the docking area. Obstacle padding accounted for the vessel dimensions.</p>
       </article>
-      <article class="problem-step">
-        <span class="step-number">02</span>
+      <article>
         <h3>Vessel model</h3>
-        <p>A 3-DOF kinematic model described position and heading, with surge, sway and yaw rate as the control inputs used by the controller.</p>
+        <p>A three-degree-of-freedom kinematic model described position and heading, with surge, sway and yaw rate as controller inputs.</p>
       </article>
-      <article class="problem-step">
-        <span class="step-number">03</span>
-        <h3>MPC and trajectory control</h3>
-        <p>The controller balanced several objectives through cost functions: following the route, keeping control actions smooth, limiting acceleration and reaching the final docking position and orientation.</p>
+      <article>
+        <h3>Trajectory control</h3>
+        <p>The MPC predicted the vessel motion over a finite horizon and selected control actions by minimising costs for route tracking, final pose, control effort and acceleration.</p>
       </article>
-      <article class="problem-step">
-        <span class="step-number">04</span>
+      <article>
         <h3>Collision avoidance</h3>
-        <p>Static obstacles and harbour boundaries were included in the optimisation, while moving obstacles were represented separately so the trajectory could adapt as the surroundings changed.</p>
+        <p>Static obstacles and harbour boundaries were included in the optimisation. Moving obstacles were represented separately so that the trajectory could adapt when the environment changed.</p>
       </article>
-      <article class="problem-step">
-        <span class="step-number">05</span>
-        <h3>Integration and validation</h3>
-        <p>We moved from Python simulation to CPAC's Unity-based simulator over CAN, converted states and commands between the environments, and finally tested the concept on a real vessel.</p>
+      <article>
+        <h3>System integration</h3>
+        <p>The controller was first tested in Python, then connected to CPAC's Unity-based simulator over CAN, and finally evaluated on a real vessel.</p>
       </article>
     </section>
 
-    <section class="case-grid">
+    <section class="case-section">
       <h2>My contribution</h2>
       <div class="case-copy">
-        <p>My main focus was the Python simulation environment and the controller itself, particularly the MPC cost functions. My thesis partner focused more heavily on the vessel model, while path planning and system-level integration overlapped between us.</p>
-        <p>I also worked on connecting our Python environment to CPAC's simulator. That meant receiving vessel state data over CAN, converting coordinate systems and translating the controller output back into commands the simulator could use.</p>
+        <p>My main focus was the Python simulation environment and the controller, particularly the MPC cost functions. My thesis partner focused more on the vessel model, while path planning and system integration were developed with some overlap between us.</p>
+        <p>I also worked on the interface to CPAC's simulator. This included receiving vessel state data over CAN, converting between geographic and Cartesian coordinate systems, and translating the controller output into setpoints used by the simulator.</p>
       </div>
     </section>
 
     <figure class="case-image simulator-image">
       <img src="../assets/docking-simulator.jpg" alt="CPAC simulator and development setup">
-      <figcaption class="caption">Development setup used while moving the controller from Python into CPAC's simulator environment.</figcaption>
+      <figcaption>Development setup used for integration with CPAC's simulator.</figcaption>
     </figure>
 
-    <section class="case-grid">
-      <h2>From simulation to a real vessel</h2>
+    <section class="case-section">
+      <h2>Simulation and real-world testing</h2>
       <div class="case-copy">
-        <p>The development path deliberately increased the realism. We first worked in Python, then connected the controller to CPAC's simulator, and finally ran the control chain on a real vessel.</p>
-        <p>The real-vessel test exposed behaviour that was less obvious in simulation. The path and trajectory planners produced sensible references, but rotational commands were too aggressive and the vessel overshot its desired heading. That pointed directly to the need for tighter velocity constraints, stronger acceleration penalties and further tuning.</p>
+        <p>The development process increased the level of realism in three steps. The controller was first evaluated in a Python environment, then connected to CPAC's simulator, and finally tested on a real vessel.</p>
+        <p>The real-world test was limited to one afternoon and focused on verifying that the MPC could work with the vessel's proportional control system. It did not include a complete autonomous docking scenario. The test showed that the path and trajectory planners generated suitable references, but the rotational commands were too aggressive and caused heading overshoot. This indicated a need for stricter velocity constraints, stronger acceleration penalties and further tuning.</p>
       </div>
     </section>
 
-    <section class="case-grid">
-      <h2>Outcome</h2>
+    <section class="case-section">
+      <h2>Results</h2>
       <div class="case-copy">
+        <p>The simulations showed that the system could follow a reference route, avoid static and moving obstacles and reach docking positions in constrained environments. Differences between the Python simulation, CPAC's simulator and the real vessel also identified areas that require further development before the system can be used reliably in more complex maritime conditions.</p>
         <div class="case-callout">
           <strong>Granted Swedish patent</strong>
-          <p>The work resulted in a granted patent for MPC-based autonomous marine docking. CPAC also continued with the concept of using MPC and the cost-function approach from the thesis in later autonomous docking development.</p>
+          <p>The thesis resulted in a granted patent for MPC-based autonomous marine docking. CPAC also continued with the concept of using MPC and the cost-function approach in later autonomous docking development.</p>
         </div>
         <div class="case-links">
           <a class="button" href="../assets/Autonomous_Docking_Thesis.pdf" target="_blank">Read thesis</a>
@@ -113,6 +104,6 @@
   </div>
 </main>
 
-<footer class="site-footer"><div class="container">© 2026 Erik Laitala</div></footer>
+<footer class="site-footer"><div class="container">&copy; 2026 Erik Laitala</div></footer>
 </body>
 </html>

@@ -23,99 +23,111 @@
 <main>
   <section class="case-hero">
     <div class="container">
-      <p class="eyebrow">Reverse engineering · Arduino · EEPROM · CAD</p>
       <h1>Brady Roll Refill Box</h1>
-      <p class="case-intro">Brady rolls consistently stopped with usable material left. Instead of accepting that as a printer limitation, I worked backwards from the Smart Cell on the roll, identified what changed when a label was printed and turned the investigation into a workshop tool.</p>
-      <div class="case-meta">
-        <span><strong>Role:</strong> Investigation, hardware, CAD, integration and validation</span>
-        <span><strong>Core:</strong> DS2431 EEPROM over 1-Wire</span>
-        <span><strong>Use:</strong> Shared workshop tool</span>
-      </div>
-      <a class="back" href="../index.html#projects">← Back to projects</a>
+      <p class="case-intro">Brady label rolls could stop being accepted while usable material remained. I investigated the Smart Cell attached to the roll, identified how the remaining material was stored and built a standalone tool that can validate and restore supported rolls.</p>
+      <a class="back" href="../index.html#projects">&larr; Back to projects</a>
     </div>
   </section>
 
-  <div class="container case-main brady-case">
-    <section class="brady-opening">
+  <div class="container case-main">
+    <section class="case-split">
       <figure class="case-image brady-main-image">
         <img src="../assets/brady-refill-box.jpg" alt="Brady Roll Refill Box with Arduino and a label roll">
-        <figcaption class="caption">The finished refill box. The holder and enclosure were CAD-designed and 3D-printed around the electronics and roll contact points.</figcaption>
+        <figcaption>The finished refill box, built around the electronics and the roll contact points.</figcaption>
       </figure>
-      <div class="brady-question">
-        <p class="case-kicker">The question</p>
-        <h2>Why does the printer call a roll empty when roughly 10% is still there?</h2>
-        <p>The answer turned out to be in the roll itself. Each roll carries a small Smart Cell that stores information about the media and how much remains.</p>
+      <div class="case-split-copy">
+        <h2>Background</h2>
+        <p>Around 10% of the label material could still remain when the printer stopped accepting a roll. I wanted to determine whether the limit came from the physical roll or from the data stored in the attached Smart Cell.</p>
+        <p>Each roll contains a small memory device that identifies the media and tracks how much material remains. This became the starting point for the investigation.</p>
       </div>
     </section>
 
-    <section class="experiment-story">
-      <div class="experiment-intro">
-        <p class="case-kicker">The experiment</p>
-        <h2>Change exactly one thing, then see what changed in memory.</h2>
+    <section class="case-split reverse">
+      <div class="case-split-copy">
+        <h2>Smart Cell and test setup</h2>
+        <p>I opened the Smart Cell and identified the memory device as a DS2431 EEPROM. The datasheet provided the 1-Wire communication method and the basic memory structure.</p>
+        <p>I then built a two-contact fixture connected to an Arduino. This allowed rolls to be inserted, read and compared repeatedly without soldering.</p>
       </div>
-      <div class="experiment-line">
-        <article>
-          <span>01</span>
-          <h3>Identify the device</h3>
-          <p>I removed a chip from a roll, read the marking and identified it as a DS2431 EEPROM. The datasheet gave me the 1-Wire interface and memory structure.</p>
-        </article>
-        <article>
-          <span>02</span>
-          <h3>Make it repeatable</h3>
-          <p>I built a two-contact fixture so rolls could be connected quickly without soldering. That made repeated reads practical while I investigated the memory.</p>
-        </article>
-        <article>
-          <span>03</span>
-          <h3>Compare before and after</h3>
-          <p>I read the EEPROM contents, printed exactly one label and then read the memory again. Comparing the two snapshots showed which values changed with usage and led me to the remaining-label counter.</p>
-        </article>
+      <figure class="case-image chip-image">
+        <img src="../assets/brady-chip.png" alt="Brady label roll and opened Smart Cell showing the electrical contacts">
+        <figcaption>The roll and opened Smart Cell used during the investigation.</figcaption>
+      </figure>
+    </section>
+
+    <section class="case-section">
+      <h2>Identifying the counter</h2>
+      <div class="case-copy">
+        <p>Rather than guessing which bytes represented the remaining material, I used a controlled comparison. I read the complete EEPROM, printed exactly one label and then read the memory again.</p>
+        <div class="process-line" aria-label="EEPROM comparison process">
+          <span><strong>Read before</strong><small>Capture the EEPROM state.</small></span>
+          <b>&rarr;</b>
+          <span><strong>Print one label</strong><small>Change one known variable.</small></span>
+          <b>&rarr;</b>
+          <span><strong>Read again</strong><small>Compare the two snapshots.</small></span>
+        </div>
+        <p>Repeating the comparison showed which bytes changed with use and led to the remaining-material counter and its associated checksum.</p>
       </div>
     </section>
 
-    <section class="memory-section">
-      <div class="memory-copy">
-        <p class="case-kicker">From raw bytes to useful state</p>
-        <h2>Once the memory map made sense, the roll became readable.</h2>
-        <p>The tool can identify the media, read the nominal capacity and remaining count, validate checksum information and determine whether the relevant memory page is writable before attempting a change.</p>
-        <p>A physical switch prevents accidental writes while inspecting a roll. If the roll is supported and writable, the tool restores the counter and verifies the result afterwards.</p>
+    <section class="memory-layout">
+      <div class="case-copy">
+        <h2>Memory structure</h2>
+        <p>The Smart Cell contains more than a counter. It also stores the part number, nominal capacity, format information, integrity checks and the protection state of each memory page.</p>
+        <p>In the example shown here, the roll reports a nominal capacity of <code>2500</code> and a remaining count of <code>797</code>. The dynamic counter is stored together with a checksum that must remain valid after an update.</p>
       </div>
+
       <pre class="terminal-dump"><code>NEW ROLL DETECTED
 
 Device type: DS2431
 ROM CRC: OK
+
+Brady BRC format: OK
 Part number: BM-094-1-342-YL
 Static CRC: OK
 
+Capacity address: 0x4D
 Nominal / full capacity: 2500
 Labels remaining: 797
 
 Counter row 0x78-0x7F:
 1D 03 00 00 00 00 00 20
 
+Counter checksum stored: 0x20
+Counter checksum calc:   0x20
 Counter checksum: OK
-Page 3: OPEN / WRITABLE
 
-ROLL READY FOR REFILL
-Current -&gt; Full capacity: 797 -&gt; 2500</code></pre>
+Page 3: OPEN / WRITABLE</code></pre>
     </section>
 
-    <section class="brady-tool">
-      <div>
-        <p class="case-kicker">From experiment to tool</p>
-        <h2>The quick test fixture ended up becoming the final workshop box.</h2>
+    <section class="case-section">
+      <h2>Write procedure and validation</h2>
+      <div class="case-copy">
+        <p>The tool does not write to every DS2431 it detects. Before a refill is allowed, the firmware verifies the expected Brady BRC format, checks the stored CRC and checksum values, and confirms that the dynamic page is still writable. Unknown layouts and failed checks remain read-only.</p>
+        <p>A refill changes only the dynamic remaining-material data. The checksum is recalculated, reserved bytes are preserved and the EEPROM is read back after the write to verify the result. The static media definition and the DS2431 protection registers are left unchanged.</p>
       </div>
-      <div>
-        <p>I designed and 3D-printed the enclosure around the electronics and the roll contact points. In normal use, someone inserts a roll and gets an immediate indication of whether it is locked or can be restored.</p>
-        <p>The finished box is shared by the workshop and recovers material that would otherwise be discarded when the printer reaches its stored counter limit.</p>
+    </section>
+
+    <section class="case-section">
+      <h2>Workshop tool</h2>
+      <div class="case-copy">
+        <p>Once the memory handling worked reliably, I packaged the electronics into a CAD-designed and 3D-printed enclosure with a reusable contact fixture, status indication and a physical write switch.</p>
+        <p>The operator inserts a roll and the tool automatically identifies the Smart Cell, validates the memory and indicates whether the roll is supported, locked or ready for refill. No data is changed until the physical switch is activated.</p>
         <div class="case-links">
           <a class="button" href="../assets/How_to_Refill_Brady_Rolls.docx">Read user guide</a>
           <a class="button" href="../assets/Brady_Roll_Refill_Firmware.ino">View firmware file</a>
         </div>
       </div>
     </section>
+
+    <section class="case-section">
+      <h2>Result</h2>
+      <div class="case-copy">
+        <p>The finished tool can identify supported Brady rolls, validate their memory structure and restore the remaining-material counter without modifying the static media data. It is now used in the workshop to recover material that would otherwise be discarded.</p>
+      </div>
+    </section>
   </div>
 </main>
 
-<footer class="site-footer"><div class="container">© 2026 Erik Laitala</div></footer>
+<footer class="site-footer"><div class="container">&copy; 2026 Erik Laitala</div></footer>
 </body>
 </html>

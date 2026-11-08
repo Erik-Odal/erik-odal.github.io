@@ -7,13 +7,10 @@
   <title>Fluke Cable Tester | Erik Laitala</title>
   <link rel="stylesheet" href="../style.css">
 </head>
-
 <body>
-
 <header class="site-header">
   <div class="container nav">
     <a class="brand" href="../index.html">Erik Laitala</a>
-
     <nav class="nav-links" aria-label="Primary navigation">
       <a href="../index.html#projects">Projects</a>
       <a href="../index.html#experience">Experience</a>
@@ -23,298 +20,87 @@
   </div>
 </header>
 
-
 <main>
-
   <section class="case-hero">
     <div class="container">
-
-      <p class="eyebrow">Python · BLE · Excel · Production test</p>
-
       <h1>Fluke Cable Tester</h1>
-
-      <p class="case-intro">
-        The workshop already had a digital meter and a production workbook,
-        but the two did not work together. I built the missing link:
-        a tool that reads the meter directly, understands where the operator
-        is in the connection list and saves the right result in the right place.
-      </p>
-
-      <div class="case-meta">
-        <span>
-          <strong>Role:</strong>
-          Designed and developed the complete tool
-        </span>
-
-        <span>
-          <strong>Environment:</strong>
-          Daily workshop use
-        </span>
-
-        <span>
-          <strong>Impact:</strong>
-          Typical test reduced from about 60 minutes to 6
-        </span>
-      </div>
-
-      <a class="back" href="../index.html#projects">
-        ← Back to projects
-      </a>
-
+      <p class="case-intro">Before a cable assembly can be approved, each intended electrical connection must be checked with a multimeter and recorded in a test report. I developed a Python application that connects a Fluke 1587 FC to the existing Excel workflow and guides the operator through the test.</p>
+      <a class="back" href="../index.html#projects">&larr; Back to projects</a>
     </div>
   </section>
 
-
   <div class="container case-main">
+    <section class="case-section">
+      <h2>Manual test process</h2>
+      <div class="case-copy">
+        <p>The continuity measurement itself only takes a moment. For each connection, the operator still had to read the display, find the corresponding row in Excel, enter the value and locate the next two points to test.</p>
+        <p>When a cable contained many connections, most of the time was spent coordinating the meter and the report rather than taking the measurements. The process was also vulnerable to values being entered on the wrong row or overwriting an existing result.</p>
+      </div>
+    </section>
 
+    <section class="fluke-interface-layout">
+      <figure class="fluke-app-shot">
+        <img src="../assets/fluke-cable-tester.png" alt="Fluke Cable Tester application showing a live continuity measurement and the active Excel connection">
+        <figcaption>Sanitised demo project showing a live continuity measurement and the active connection in Excel.</figcaption>
+      </figure>
 
-    <!-- OPERATOR INTERFACE -->
-
-  <section class="fluke-interface-layout">
-
-    <figure class="fluke-app-shot">
-      <img
-        src="../assets/fluke-cable-tester.png"
-        alt="Fluke Cable Tester application showing a live continuity measurement and the active Excel connection"
-      >
-      <figcaption>
-        Sanitised demo project showing a live continuity measurement
-        and the cable point currently selected in Excel.
-      </figcaption>
-    </figure>
-
-    <div class="fluke-interface-copy">
-
-      <h2>Everything needed for the next measurement.</h2>
-
-      <p>
-        The application keeps the meter, the Excel connection list
-        and the current test point in one place, so the operator does
-        not have to move back and forth between different tools.
-      </p>
-
-      <p>
-        It shows the live Fluke value, verifies the measurement mode,
-        reads the currently selected connection in Excel and checks
-        whether a result already exists before allowing anything to be saved. 
-        A foot pedal saves the validated measurement and moves directly
-        to the next cavity.
-      </p>
-
-
-    </div>
-
-    <figure class="fluke-report-shot">
-      <img
-        src="../assets/fluke-qa-report.png"
-        alt="Example cable quality assurance report populated during continuity testing"
-      >
-      <figcaption>
-        Example of a cable quality assurance report populated during continuity testing.
-      </figcaption>
-    </figure>
-
-</section>
-
-
-    <!-- TECHNICAL BREAKDOWN -->
-
-    <section class="case-grid">
-
-      <h2>How I broke it down</h2>
-
-      <div class="case-copy wide-copy">
-
-        <p>
-          The problem was not just reading a multimeter.
-          The complete workflow had to connect the instrument,
-          decode its data, understand the existing Excel connection list
-          and make it difficult for an operator to save a measurement
-          in the wrong place.
-        </p>
-
+      <div class="fluke-interface-copy">
+        <h2>Application workflow</h2>
+        <p>The application displays the current connection, receives the live measurement from the meter and checks that the selected Excel cell is intended for a result.</p>
+        <p>The operator can save the value with a foot pedal. The measurement and timestamp are written to the report, and the selection advances to the next connection.</p>
       </div>
 
+      <figure class="fluke-report-shot">
+        <img src="../assets/fluke-qa-report.png" alt="Example cable quality assurance report populated during continuity testing">
+        <figcaption>Example of a cable quality assurance report populated during continuity testing.</figcaption>
+      </figure>
     </section>
 
-
-    <section
-      class="problem-flow fluke-flow"
-      aria-label="Fluke Cable Tester technical breakdown"
-    >
-
-      <article class="problem-step">
-
-        <span class="step-number">01</span>
-
-        <h3>Connect directly to the meter</h3>
-
-        <p>
-          I knew the Fluke exposed data wirelessly because its companion
-          app could connect to it. I scanned the BLE traffic, identified
-          the meter and built a direct connection that could also recover
-          when the link dropped.
-        </p>
-
-      </article>
-
-
-      <article class="problem-step">
-
-        <span class="step-number">02</span>
-
-        <h3>Decode the packet</h3>
-
-        <p>
-          The BLE data was not useful in raw form. By comparing packet
-          bytes with the physical display, I mapped the measurement value,
-          unit, mode and other fields into data the application could understand.
-        </p>
-
-      </article>
-
-
-      <article class="problem-step">
-
-        <span class="step-number">03</span>
-
-        <h3>Understand the connection list</h3>
-
-        <p>
-          The application follows the operator's position in Excel and
-          reads the current source and destination. It only allows measurements
-          to be written into cells that are actually intended for test results.
-        </p>
-
-      </article>
-
-
-      <article class="problem-step">
-
-        <span class="step-number">04</span>
-
-        <h3>Protect the existing data</h3>
-
-        <p>
-          Before saving, the tool checks the meter mode and whether a result
-          already exists. A successful save writes the value and timestamp,
-          then advances to the next test point instead of silently
-          overwriting data.
-        </p>
-
-      </article>
-
-
-      <article class="problem-step">
-
-        <span class="step-number">05</span>
-
-        <h3>Make it practical in the workshop</h3>
-
-        <p>
-          Foot-pedal and keyboard controls let the operator save without
-          letting go of the probes. The interface was repeatedly updated
-          from live workshop feedback rather than designed once and handed over.
-        </p>
-
-      </article>
-
-    </section>
-
-
-
-
-    <!-- BLE -->
-
-    <section class="case-grid">
-
-      <h2>The part that took the most work</h2>
-
+    <section class="case-section">
+      <h2>BLE communication</h2>
       <div class="case-copy">
-
-        <p>
-          Connecting reliably to the Fluke 1587 FC was one of the harder parts.
-          The workshop tool needed to discover the correct instrument,
-          connect to it, maintain the BLE connection and recover cleanly
-          when communication was interrupted.
-        </p>
-
-        <p>
-          The protocol also had to be inferred experimentally.
-          I changed what the physical instrument was displaying and compared
-          that with the received packet until I could separate the measurement
-          value from the unit, mode, date and other information being broadcast.
-        </p>
-
+        <p>Fluke's companion application showed that the measurement data was already available over Bluetooth. However, the mobile application did not fit the workshop process, and reading the meter from a computer required Fluke's paid software subscription.</p>
+        <p>I therefore scanned the nearby BLE traffic, identified the meter and implemented a direct connection in Python. The connection also needed to remain stable during long tests and recover if communication was interrupted.</p>
       </div>
-
     </section>
 
-
-    <!-- USER ITERATION -->
-
-    <section class="case-grid">
-
-      <h2>Designed with the users</h2>
-
+    <section class="case-section">
+      <h2>Packet decoding</h2>
       <div class="case-copy">
-
-        <p>
-          The workshop has used the tool through many versions.
-          They test it in the real workflow, tell me what creates friction
-          or confusion, and I change the application around that feedback.
-        </p>
-
-        <p>
-          One example was recovery and traceability. With many cables and
-          many project files in circulation, users could occasionally delete
-          or change the wrong thing. I added a local activity log in AppData
-          so actions and measurements remain traceable and can be used to
-          reconstruct results when needed.
-        </p>
-
+        <p>The BLE interface provided raw packets rather than a documented measurement API. I changed one value at a time on the physical meter and compared the display with the received bytes. This made it possible to identify the resistance value, unit, measurement mode, date and other fields.</p>
+        <p>The decoded fields were then converted into structured measurements that the rest of the application could use.</p>
       </div>
-
     </section>
 
-
-    <!-- OUTCOME -->
-
-    <section class="case-grid">
-
-      <h2>Outcome</h2>
-
+    <section class="case-section">
+      <h2>Excel integration</h2>
       <div class="case-copy">
+        <p>The Excel workbook was already part of the production process, so the application was designed around it rather than replacing it. The tool follows the active row in the connection list and reads the source, destination and cavity for the next test point.</p>
+        <p>Before saving, the application verifies the meter mode, checks that the selected cell is valid and prevents an existing result from being overwritten. A valid measurement is stored with a timestamp before Excel advances to the next row.</p>
+      </div>
+    </section>
 
+    <section class="case-section">
+      <h2>Workshop testing</h2>
+      <div class="case-copy">
+        <p>The first version was tested directly in the workshop and then updated from user feedback. Later versions added foot-pedal control, configurable shortcuts, clearer validation, improved reconnect behaviour and safeguards around project files.</p>
+        <p>I also added a local AppData log so that measurements and actions can be traced or reconstructed if a project file is changed or deleted.</p>
+      </div>
+    </section>
+
+    <section class="case-section">
+      <h2>Result</h2>
+      <div class="case-copy">
+        <p>The final application connects the meter, Excel workbook and operator input into one guided test process. It is used daily by the workshop team.</p>
         <div class="case-callout">
-
-          <strong>
-            From manual measurement logging to a guided production workflow
-          </strong>
-
-          <p>
-            We timed the original and automated processes.
-            A typical cable test went from roughly 60 minutes to 6,
-            and the application is now used daily by the workshop team.
-          </p>
-
+          <strong>Typical test time: about 60 minutes to 6 minutes</strong>
+          <p>The original and automated processes were timed using the same type of cable test. The reduction came mainly from removing repeated manual reading, navigation and data entry.</p>
         </div>
-
       </div>
-
     </section>
-
-
   </div>
-
 </main>
 
-
-<footer class="site-footer">
-  <div class="container">
-    © 2026 Erik Laitala
-  </div>
-</footer>
-
+<footer class="site-footer"><div class="container">&copy; 2026 Erik Laitala</div></footer>
 </body>
 </html>
